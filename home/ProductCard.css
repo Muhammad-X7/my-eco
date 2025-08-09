@@ -1,0 +1,23 @@
+.img-card:hover {
+    transform: scale(1.13);
+}
+
+@media (max-width: 720px) {
+    .img-card {
+        width: 230px;
+    }
+}
+
+.h3-card:hover {
+    color: #4a3aff;
+    cursor: pointer;
+}
+
+.uppercase:hover {
+    color: #5444ff;
+}
+
+.btn-card:hover {
+    background-color: #5343ff;
+    color: #f8f8f8;
+}

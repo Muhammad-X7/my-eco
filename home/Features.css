@@ -1,0 +1,23 @@
+@media (max-width: 970px) {
+    .features {
+        top: 170px;
+    }
+}
+
+@media (max-width: 770px) {
+    .features {
+        top: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .features {
+        top: 120px;
+    }
+}
+
+@media (max-width: 767px) {
+    .features {
+        top: 30px;
+    }
+}

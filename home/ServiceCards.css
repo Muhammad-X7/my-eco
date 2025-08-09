@@ -1,0 +1,26 @@
+@media (min-width: 1000px) {
+    .pargh {
+        top: -230px;
+    }
+}
+
+@media (max-width: 950px) {
+    .pargh {
+        top: 490px;
+    }
+}
+
+@media (max-width: 767px) {
+    .pargh {
+        top: 115px;
+    }
+}
+
+.group:hover {
+    background-color: #5900ff;
+}
+
+.group:hover .text-2xl,
+.group:hover .text-lg {
+    color: #fff;
+}

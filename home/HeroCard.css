@@ -1,0 +1,50 @@
+@media (min-width: 1100px) {
+    .content-hero {
+        width: 1160px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .content-hero {
+        width: 950px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .content-hero {
+        width: 759px;
+    }
+}
+
+@media (max-width: 770px) {
+    .content-hero {
+        width: 746px;
+    }
+}
+
+.btn-hero:hover {
+    background-color: #403be8;
+    color: #f8f8f8;
+}
+
+.hero-btn:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 760px) {
+    .text-white {
+        padding: 30px 0px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hreo {
+        top: 510px;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        top: -50px;
+    }
+}

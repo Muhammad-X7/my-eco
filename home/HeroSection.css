@@ -1,0 +1,64 @@
+.bg {
+    background-color: #111518;
+}
+
+.btn-hero-sec:hover {
+    background-color: #3a2cd3;
+    color: #fff;
+}
+
+.a:hover {
+    color: #fff;
+}
+
+.img-p {
+    width: 1000px;
+}
+
+@media (max-width: 950px) {
+    .texts {
+        left: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .texts {
+        left: 0px;
+    }
+}
+
+@media (max-height: 545px) {
+    .flex {
+        left: 0px;
+    }
+}
+
+@media (max-height: 377px) {
+    .flex {
+        left: 0px;
+    }
+}
+
+@media (min-width: 1042px) {
+    .width {
+        width: 670px;
+        right: 100px;
+        position: relative;
+    }
+}
+
+@media (max-width: 1042px) {
+    .width {
+        width: 590px;
+        right: 100px;
+        position: relative;
+    }
+}
+
+@media (max-width: 969px) {
+    .width {
+        width: 500px;
+        right: 200px;
+        top: 100px;
+    }
+}

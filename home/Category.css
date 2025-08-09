@@ -1,0 +1,48 @@
+@media (max-width: 1024px) {
+    .category {
+        top: -220px;
+    }
+}
+
+@media (max-width: 957px) {
+    .category {
+        top: 530px;
+    }
+}
+
+@media (max-width: 757px) {
+    .category {
+        top: 120px;
+    }
+}
+
+@media (max-width: 750px) {
+    .img-category {
+        width: 280px
+    }
+}
+
+.bh:hover {
+    transform: scale(1.05);
+}
+
+.bh:hover .tex {
+    color: aliceblue;
+}
+
+
+.labtop:hover {
+    background-color: rgb(251, 191, 36);
+}
+
+.drone:hover {
+    background-color: #4338ca;
+}
+
+.phone:hover {
+    background-color: rgb(13, 148, 136);
+}
+
+.console:hover {
+    background-color: rgb(39, 39, 42);
+}

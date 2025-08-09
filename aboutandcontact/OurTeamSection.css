@@ -1,0 +1,40 @@
+.img-our {
+    background-image: url(/Gemini_Generated_Image_zfs92pzfs92pzfs9.png);
+}
+
+@media (min-width: 1400px) {
+    .img-our {
+        width: 1138px;
+        height: 750px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .img-our {
+        height: 700px;
+    }
+}
+
+@media (max-width: 1050px) {
+    .img-our {
+        height: 600px;
+    }
+}
+
+@media (max-width: 777px) {
+    .img-our {
+        height: 455px;
+    }
+}
+
+@media (max-width: 767px) {
+    .img-our {
+        height: 375px;
+    }
+}
+
+@media (max-width: 580px) {
+    .img-our {
+        height: 230px;
+    }
+}

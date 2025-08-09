@@ -1,0 +1,16 @@
+.card-news:hover {
+    box-shadow: 0 4px 10px #cacaca;
+}
+
+.img-news:hover {
+    transform: scale(1.05);
+}
+
+.read:hover {
+    color: rgb(98, 7, 216);
+}
+
+.new:hover {
+    color: rgb(94, 0, 216);
+    cursor: pointer;
+}
