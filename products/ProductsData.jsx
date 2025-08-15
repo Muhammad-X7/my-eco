@@ -63,6 +63,27 @@ export const allProducts = [
     },
     {
         id: 7,
+        name: 'iPhone 12 Pro',
+        price: 999.00,
+        categoryOne: 'Smartphones',
+        image: "/category-phones.webp",
+        popularity: 5,
+        rating: 4.7,
+        dateAdded: new Date('2023-09-25')
+    },
+    {
+        id: 8,
+        name: 'iPad Pro',
+        price: 1099.00,
+        categoryOne: 'GADGETS',
+        categoryTow: 'GAMING',
+        image: "/home-page-cta-ipad.webp",
+        popularity: 5,
+        rating: 4.7,
+        dateAdded: new Date('2023-09-25')
+    },
+    {
+        id: 9,
         name: 'Valve Index Knuckles',
         price: 419.00,
         categoryOne: 'GAMING',
@@ -72,7 +93,7 @@ export const allProducts = [
         dateAdded: new Date('2024-04-05')
     },
     {
-        id: 8,
+        id: 10,
         name: 'XBOX Elite Controller',
         price: 179.00,
         categoryOne: 'GAMING',
@@ -82,13 +103,23 @@ export const allProducts = [
         dateAdded: new Date('2023-09-25')
     },
     {
-        id: 9,
+        id: 11,
         name: 'XBOX Series X',
         price: 499.00,
         categoryOne: 'GAMING',
         image: "/xbox.webp",
         popularity: 4.9,
         rating: 4.7,
+        dateAdded: new Date('2023-09-25')
+    },
+    {
+        id: 12,
+        name: 'Oculus VR',
+        price: 1499.00,
+        categoryOne: 'GADGETS',
+        image: "/oculus-img.webp",
+        popularity: 4.1,
+        rating: 4.4,
         dateAdded: new Date('2023-09-25')
     }
 ];

@@ -1,3 +1,4 @@
+// FeaturedProducts.jsx
 import { allProducts } from "../products/ProductsData"
 import ProductCard from '../home/ProductCard';
 import "../home/FeaturedProducts.css"

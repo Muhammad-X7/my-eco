@@ -34,7 +34,7 @@ export default function OurTeamSection() {
                 {/* Hero Image Section */}
                 <div
                     className="img-our relative bg-cover bg-center rounded-lg shadow-xl overflow-hidden mb-12 md:mb-16 -top-70"
-                    
+
                 >
                 </div>
                 {/* Team Members Grid */}

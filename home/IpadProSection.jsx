@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./IpadProSection.css"
 
 export default function IpadProSection() {
@@ -15,10 +16,11 @@ export default function IpadProSection() {
                     <p className="text-gray-300 text-sm md:text-base lg:text-lg mb-8 max-w-md lg:mx-0 mx-auto sm:-left-20 md:left-0 relative">
                         Ultricies mieget mauris pharetra
                     </p>
-
-                    <button className="btn-ip bg-white text-gray-900 px-6 py-2 md:px-8 md:py-3 rounded-lg font-semibold transition duration-300 shadow-md text-sm md:text-base outline-none">
-                        Buy Now
-                    </button>
+                    <Link to="/products/8">
+                        <button className="btn-ip bg-white text-gray-900 px-6 py-2 md:px-8 md:py-3 cursor-pointer rounded-lg font-semibold transition duration-300 shadow-md text-sm md:text-base outline-none">
+                            Buy Now
+                        </button>
+                    </Link>
                 </div>
 
                 <div className="flex-shrink-0 w-full lg:w-1/2 flex justify-center lg:justify-start pb-16 pt-8 ">

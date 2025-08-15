@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { toast } from 'react-toastify';
 export default function NewsletterSection() {
     const [email, setEmail] = useState('');
 
@@ -7,7 +7,7 @@ export default function NewsletterSection() {
         e.preventDefault();
         // هنا يمكنك إضافة منطق لإرسال البريد الإلكتروني إلى الخادم
         console.log('Email submitted:', email);
-        alert(`Thank you for subscribing, ${email}!`);
+        toast.success(`Thank you for subscribing, ${email}!`);
         setEmail(''); // مسح حقل البريد الإلكتروني بعد الإرسال
     };
 
@@ -29,7 +29,7 @@ export default function NewsletterSection() {
                     />
                     <button
                         type="submit"
-                        className="w-full sm:w-1/3 bg-purple-700 hover:bg-purple-800 text-white font-semibold py-4 px-6 rounded-lg transition duration-300 shadow-md"
+                        className="w-full sm:w-1/3 bg-purple-700 hover:bg-purple-800 text-white font-semibold py-4 px-6 rounded-lg cursor-pointer transition duration-300 shadow-md"
                     >
                         SUBSCRIBE
                     </button>

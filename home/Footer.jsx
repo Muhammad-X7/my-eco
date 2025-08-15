@@ -19,13 +19,13 @@ export default function Footer() {
                         <div className="flex space-x-4">
                             {/* Social Media Icons/Buttons */}
                             <a href="#" className="w-[56.5px] h-0 md:w-[38.5px] md:h-[38.5px]  bg-white hover:bg-zinc-300 rounded-4xl  flex items-center justify-center text-white transition duration-300">
-                                <img src="/icon-facebook.png" alt="icon-facebook" className="w-6" />
+                                <img src="/icon-facebook.png" alt="icon-facebook" className="w-5" />
                             </a>
                             <a href="#" className="w-[56.5px] h-0 md:w-[38.5px] md:h-[38.5px]  bg-white hover:bg-zinc-300 rounded-4xl  flex items-center justify-center text-white transition duration-300">
-                                <img src="/icon-twitter.png" alt="icon-twitter" className="w-6" />
+                                <img src="/icon-twitter.png" alt="icon-twitter" className="w-5" />
                             </a>
                             <a href="#" className="w-[56.5px] h-0 md:w-[38.5px] md:h-[38.5px]  bg-white hover:bg-zinc-300 rounded-4xl flex items-center justify-center text-white transition duration-300">
-                                <img src="/icon-linkedin.png" alt="icon-linkedin" className="w-6" />
+                                <img src="/icon-linkedin.png" alt="icon-linkedin" className="w-5" />
                             </a>
                         </div>
                     </div>
@@ -34,20 +34,20 @@ export default function Footer() {
                         <h3 className="text-white text-xl font-semibold mb-6">USEFUL LINKS</h3>
                         <ul className="space-y-3">
                             <Link to={"/about-us"}>
-                                <li><a href="#" className="about transition duration-300">About Us</a></li>
+                                <li className="about transition duration-300">About Us</li>
                             </Link>
 
                             <Link to={"/contact-us"}>
-                                <li><a href="#" className="about transition duration-300">Contact Us</a></li>
+                                <li className="about transition duration-300">Contact Us</li>
                             </Link>
                             <Link to={"/products"}>
-                                <li><a href="#" className="about transition duration-300">Products</a></li>
+                                <li className="about transition duration-300">Products</li>
                             </Link>
                             <Link to="/">
-                                <li><a className="about transition duration-300 cursor-pointer">Login</a></li>
+                                <li className="about transition duration-300">Login</li>
                             </Link>
                             <Link to="/">
-                                <li><a className="about transition duration-300 cursor-pointer">Sign Up</a></li>
+                                <li className="about transition duration-300">Sign Up</li>
                             </Link>
                         </ul>
                     </div>
@@ -58,8 +58,12 @@ export default function Footer() {
                             <li><a href="#" className="about transition duration-300">My Account</a></li>
                             <li><a href="#" className="about transition duration-300">Tracking List</a></li>
                             <li><a href="#" className="about transition duration-300">Privacy Policy</a></li>
-                            <li><a href="#" className="about transition duration-300">Orders</a></li>
-                            <li><a href="#" className="about transition duration-300">My Cart</a></li>
+                            <Link to="/cart">
+                                <li className="about transition duration-300 pb-2">Orders</li>
+                            </Link>
+                            <Link to="/cart">
+                                <li className="about transition duration-300">My Cart</li>
+                            </Link>
                         </ul>
                     </div>
                     {/* Column 4: More Information */}
@@ -70,7 +74,7 @@ export default function Footer() {
                         </p>
                         <div className="flex items-center space-x-2">
                             {/* Payment Method Icons */}
-                            <img src="/payment-icons.svg" alt="" />
+                            <img src="/payment-icons.svg" alt="icon-payment" />
                         </div>
                     </div>
                 </div>

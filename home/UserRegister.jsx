@@ -1,16 +1,71 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
     const [input, setInput] = useState({ name: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
+
+    // مرجع للعنصر الرئيسي
+    const modalRef = useRef(null);
+
     useEffect(() => {
         if (isOpen) {
             setInput({ name: "", password: "" }); // تصفير الحقول عند فتح النافذة
         }
     }, [isOpen]);
+
+    // معالجة الضغط خارج العنصر
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target) && isOpen) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('touchstart', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
+    }, [isOpen, onClose]);
+
+    // معالجة زر العودة في المتصفح
+    useEffect(() => {
+        const handlePopState = () => {
+            if (isOpen) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            window.history.pushState({ userRegisterOpen: true }, '');
+            window.addEventListener('popstate', handlePopState);
+        }
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [isOpen, onClose]);
+
+    // معالجة الضغط على Escape
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape' && isOpen) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            window.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -33,14 +88,24 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
         onSwitchToLogin();
     };
 
+    // إغلاق عند الضغط على الخلفية
+    const handleBackdropClick = (e) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
     return (
-        <div className="fixed inset-0 bg-[rgba(0,0,0,0.66)] z-[9999] flex items-center justify-center p-4">
-            <div className="bg-white p-8 md:p-12 rounded-lg shadow-lg relative w-full max-w-md mx-auto">
+        <div
+            className="fixed inset-0 bg-[rgba(0,0,0,0.66)] z-[9999] flex items-center justify-center p-4"
+            onClick={handleBackdropClick}
+        >
+            <div ref={modalRef} className="bg-white p-8 md:p-12 rounded-lg shadow-lg relative w-full max-w-md mx-auto">
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl"
                 >
-                    <FontAwesomeIcon icon={faTimes} />
+                    <img src="/close-b.png" alt="close-icon" className="w-8 hover:rotate-90 cursor-pointer transition duration-400" />
                 </button>
                 <h2 className="text-xl font-semibold mb-6 text-gray-800 text-center">
                     Create Account
@@ -76,9 +141,13 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
                             <button
                                 type="button"
                                 onClick={togglePasswordVisibility}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                                className="absolute inset-y-0 right-0 pr-3 md:pr-20 lg:pr-3 flex items-center text-gray-500 cursor-pointer hover:text-gray-700"
                             >
-                                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                                {showPassword ? (
+                                    <img src="/eye.png" alt="eye-icon" className="w-5 h-5" />
+                                ) : (
+                                    <img src="/hidden.png" alt="eye-icon" className="w-5 h-5" />
+                                )}
                             </button>
                         </div>
                     </div>

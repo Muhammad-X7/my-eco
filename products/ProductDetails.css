@@ -1,17 +1,55 @@
 .pro-h3:hover {
     color: #4a3aff;
 }
+
 .ntv {
     top: 1px;
 }
-.btn-add:hover {
-    background-color: #5919fa;
-    color: #f7f7f7
+
+.ntv:hover {
+    background-color: #4a3aff;
+
 }
 
-.add:hover {
-    background-color: #5343ff;
-    color: #f7f7f7;
+@media (min-width:1000px) {
+    .card-productsss {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width:1200px) {
+    .card-productsss {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
 }
 
 
+@media (min-width:1270px) {
+    .footer-product {
+        top: 315px;
+    }
+}
+
+@media (min-width:3600px) {
+    .footer-product {
+        top: 1000px;
+    }
+}
+
+@media (min-width:3700px) {
+    .footer-product {
+        top: 550px;
+    }
+}
+
+@media (min-width:3850px) {
+    .footer-product {
+        top: 1200px;
+    }
+}
+
+@media (min-height:1700px) {
+    .footer-product {
+        top: 710px;
+    }
+}

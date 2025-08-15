@@ -1,0 +1,29 @@
+@media (min-width: 1010px) {
+    .footer-contact {
+        top: 1535px;
+        background-color: #111518;
+        padding-top: 290px;
+        padding-bottom: 200px;
+
+    }
+}
+
+@media (min-width: 1270px) {
+    .footer-contact {
+        top: 1520px;
+        background-color: #111518;
+        padding-top: 290px;
+        padding-bottom: 200px;
+
+    }
+}
+
+@media (min-width: 1700px) {
+    .footer-contact {
+        top: 1500px;
+        background-color: #111518;
+        padding-top: 290px;
+        padding-bottom: 200px;
+
+    }
+}

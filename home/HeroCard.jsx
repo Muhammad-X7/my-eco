@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../home/HeroCard.css"
 
 export default function HeroCard() {
@@ -11,13 +12,17 @@ export default function HeroCard() {
             Ullamcorper malesuada proin libero nunc consequat interdum varius consequat mauris nunc congue nisi vitae.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className="btn-hero bg-white cursor-pointer  text-indigo-950 font-semibold py-3 px-6 rounded-lg transition duration-300">
-              View Offer
-            </button>
-            <button className="hero-btn bg-transparent border cursor-pointer border-transparent text-white opacity-70 font-semibold py-3 px-6 rounded-lg transition duration-400 flex items-center justify-center">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"></path></svg>
-              Watch Video
-            </button>
+            <Link to="/products/12">
+              <button className="btn-hero bg-white cursor-pointer  text-indigo-950 font-semibold py-3 px-6 rounded-lg transition duration-300">
+                Buy Now
+              </button>
+            </Link>
+            <Link to="https://www.youtube.com/watch?v=aNTBGLqVJmk">
+              <button className="hero-btn bg-transparent border cursor-pointer border-transparent text-white opacity-70 font-semibold py-3 px-6 mx-auto rounded-lg transition duration-400 flex items-center justify-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"></path></svg>
+                Watch Video
+              </button>
+            </Link>
           </div>
         </div>
 

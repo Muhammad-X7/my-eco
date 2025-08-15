@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { allArticles } from "../Blog/NewsData";
-
+import Footer from "../home/Footer"
 
 export default function ArticleDetails() {
     const { id } = useParams();
@@ -20,11 +20,10 @@ export default function ArticleDetails() {
 
     return (
         <div className="bg-white text-gray-900 pb-28">
-            {/* ✅ القسم العلوي مع صورة خلفية وعنوان */}
 
             <section
 
-                className="relative w-full h-[400px] md:h-[450px] flex items-center justify-center text-white text-center"
+                className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center text-white text-center"
                 style={{
                     backgroundImage: `url(${article.image})`,
                     backgroundSize: 'cover',
@@ -38,11 +37,15 @@ export default function ArticleDetails() {
                 <div className="relative z-10 px-4">
                     <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-4">{article.title}</h1>
                     <div className="text-sm text-gray-200 flex justify-center gap-4 flex-wrap">
-                        <span className="bg-indigo-600 px-3 py-1 rounded-full text-xs font-semibold uppercase">Admin</span>
+                        <Link to="/blog">
+                            <span className="bg-indigo-600 px-4 py-1 rounded-sm text-xs font-semibold hover:bg-black  transition duration-300">Blog</span>
+                        </Link>
                         <span>/</span>
                         <span>{article.date}</span>
                         <span>/</span>
-                        <span>{article.category}</span>
+                        <Link to={`/blog/category/${article.category}`}>
+                            <span className='cursor-pointer hover:text-indigo-600 transition duration-300'>{article.category}</span>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -107,14 +110,16 @@ export default function ArticleDetails() {
 
                     <button
                         type="submit"
-                        className="bg-gray-800 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-700 transition-colors duration-200"
+                        className="bg-gray-800 text-white py-3 w-40  rounded-md font-semibold hover:bg-gray-700 transition-colors duration-200"
                     >
                         Post Comment
                     </button>
                 </form>
             </div>
+            <div className='bg h-0 top-[430px] relative'>
+                <Footer />
+            </div>
         </div>
-
     );
 }
 

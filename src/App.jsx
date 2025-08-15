@@ -9,9 +9,12 @@ import ProductsHome from "../products/ProductsHome";
 import ProductDetails from "../products/ProductDetails";
 import AboutUs from "../aboutandcontact/AboutUs";
 import BlogHome from "../Blog/BlogHome";
-import ArticleDetails from "../Blog/ArticleDetails"
+import ContactHome from "../Contact/ContactHome";
+import ArticleDetails from "../Blog/ArticleDetails";
 import ScrollToTop from "./ScrollToTop";
-
+import MyCart from "../home/MyCart";
+import CheckoutPage from "../products/CheckoutPage"; // صفحة الدفع الكاملة
+import PaymentMethods from "../products/PaymentMethods";
 
 export default function App() {
   return (
@@ -27,6 +30,12 @@ export default function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Home />} />
 
+          {/* صفحة السلة */}
+          <Route path="/cart" element={<MyCart />} />
+
+          {/* صفحة الدفع المنفصلة */}
+          <Route path="/checkout" element={<CheckoutPage />} />
+
           {/* صفحة تفاصيل المنتج */}
           <Route path="/products/:productId" element={<ProductDetails />} />
 
@@ -39,7 +48,6 @@ export default function App() {
           {/*About Us */}
           <Route path="/about-us" element={<AboutUs />} />
 
-
           {/* مسارات المدونة الجديدة */}
           <Route path="/blog" element={<BlogHome />} />
 
@@ -47,8 +55,11 @@ export default function App() {
           <Route path="/blog/category/:categoryName" element={<BlogHome />} />
 
           <Route path="/blog/:articleId" element={<ArticleDetails />} />
-          <Route path="/articles/:id" element={<ArticleDetails />} /> {/* ✅ هذا هو المسار الجديد للمقالات */}
+          <Route path="/articles/:id" element={<ArticleDetails />} />
+          <Route path="/contact-us" element={<ContactHome />} />
 
+          {/* صفحة طرق الدفع الجديدة */}
+          <Route path="/payment-methods" element={<PaymentMethods />} />
         </Routes>
       </ErrorBoundary>
     </div>

@@ -1,22 +1,51 @@
-// src/products/ProductDetails.jsx
+// ProductDetails.jsx
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-// استيراد البيانات من ملف ProductsData.jsx
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { allProducts, getFullDescription } from '../products/ProductsData';
+import { toast } from "react-toastify";
+import { useCart } from '../products/CreateContext';
 
-// دالة لمسار الفئة (تم نقلها للخارج لتكون قابلة للتصدير)
+import Footer from "../home/Footer"
+import "../products/ProductDetails.css";
+
 const getCategoryPath = (category) => {
     if (!category) return '#';
-    // تعديل المسار ليتوافق مع المسار الجديد
     return `/category/${encodeURIComponent(category.toLowerCase().replace(/, /g, '-').replace(/\s/g, '-'))}`;
 };
 
-// تصدير RelatedProductCard ليتم استخدامه في مكونات أخرى
-export const RelatedProductCard = ({ product }) => {
+// تم تحديث RelatedProductCard لتشمل إدارة الكمية
+export const RelatedProductCard = ({ product, onAddToCart }) => {
     const { categoryOne, categoryTow } = product;
-    return (
-        <div className="flex flex-col items-center text-center p-4">
+    const [cardQuantity] = useState(1);
+    const [isAdded, setIsAdded] = useState(false);
+    const navigate = useNavigate();
 
+    // دالة خاصة بالزر في هذا المكون مع الكمية المحددة
+    const handleAddClick = () => {
+        if (isAdded) {
+            // إذا كان المنتج مضافاً، انتقل إلى صفحة السلة
+            navigate('/cart');
+            return;
+        }
+
+        // إضافة المنتج عدة مرات بناءً على الكمية المحددة
+        for (let i = 0; i < cardQuantity; i++) {
+            const productToAdd = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                categoryOne: product.categoryOne,
+                categoryTow: product.categoryTow,
+                quantity: 1
+            };
+            onAddToCart(productToAdd);
+        }
+        setIsAdded(true);
+    };
+
+    return (
+        <div className="flex flex-col items-center text-center pb-6">
             <div className="flex items-center justify-center h-full w-64 mx-auto ">
                 <Link to={`/products/${product.id}`} className="block mb-4 ">
                     <img src={product.image} alt={product.name} className="rounded-lg max-h-full max-w-full object-cover" />
@@ -40,20 +69,28 @@ export const RelatedProductCard = ({ product }) => {
                         </Link>
                     )}
                 </div>
-                <button className="add bg-gray-100 text-zinc-950 py-2 px-4 w-full rounded-md font-semibold transition-colors duration-300">
-                    Add to cart
-                </button>
-            </div>
+
+                <button
+                    onClick={handleAddClick}
+                    className={`py-2 px-4 md:w-full min-w-[120px] rounded-md font-semibold cursor-pointer transition-colors duration-300 ${isAdded
+                        ? 'bg-green-500 text-white hover:bg-green-600'
+                        : 'bg-gray-100 text-gray-700 hover:text-zinc-100 hover:bg-indigo-600'
+                        }`}
+                >
+                    {isAdded ? 'View Cart' : 'Add to cart'}
+                </button>            </div>
         </div>
     );
 };
 
 export default function ProductDetails() {
     const { productId } = useParams();
+    const navigate = useNavigate();
     const product = allProducts.find(p => p.id === parseInt(productId));
     const [quantity, setQuantity] = useState(1);
     const [activeTab, setActiveTab] = useState('description');
     const [rating, setRating] = useState(0);
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
 
     const [formInput, setFormInput] = useState({
         name: '',
@@ -62,32 +99,45 @@ export default function ProductDetails() {
     });
 
     const [reviews, setReviews] = useState([]);
-
     const [hasReviewed, setHasReviewed] = useState(false);
+    const { addToCart } = useCart();
 
-    const localStorageKey = `product-reviews-${productId}`;
-
-    // جلب المنتجات ذات الصلة، باستثناء المنتج الحالي
+    const reviewsStorageKey = `reviews-product-${productId}`;
+    const userReviewKey = `user-reviewed-product-${productId}`;
     const relatedProducts = allProducts.filter(p => p.id !== product.id).slice(0, 4);
 
+    const getUserId = () => {
+        let userId = localStorage.getItem('unique-user-id');
+        if (!userId) {
+            userId = 'user-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+            localStorage.setItem('unique-user-id', userId);
+        }
+        return userId;
+    };
+
     useEffect(() => {
+        if (!productId) return;
+
         try {
-            const storedReviews = localStorage.getItem(localStorageKey);
+            const storedReviews = localStorage.getItem(reviewsStorageKey);
             if (storedReviews) {
                 const parsedReviews = JSON.parse(storedReviews);
                 setReviews(parsedReviews);
-
-                // التحقق مما إذا كان المستخدم قد أرسل مراجعة بالفعل
-                const userHasReviewed = parsedReviews.some(
-                    (review) => review.email === localStorage.getItem(`user-email-${productId}`)
-                );
-                setHasReviewed(userHasReviewed);
+            } else {
+                setReviews([]);
             }
+
+            const userId = getUserId();
+            const userReviewedProducts = JSON.parse(localStorage.getItem(userReviewKey) || '[]');
+            setHasReviewed(userReviewedProducts.includes(userId));
+
         } catch (error) {
             console.error("Failed to parse reviews from localStorage", error);
+            setReviews([]);
+            setHasReviewed(false);
         }
-    }, [localStorageKey, productId]);
-    // دالة لتحديث حالة النموذج
+    }, [productId, reviewsStorageKey, userReviewKey]);
+
     const handleChange = (e) => {
         setFormInput({
             ...formInput,
@@ -95,52 +145,88 @@ export default function ProductDetails() {
         });
     };
 
-    // دالة لمعالجة إرسال النموذج
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // منع الإرسال إذا كان المستخدم قد أرسل مراجعة بالفعل
         if (hasReviewed) {
-            alert("لقد قمت بالفعل بتقديم مراجعة لهذا المنتج.");
+            toast.error("لقد قمت بالفعل بتقديم مراجعة لهذا المنتج.");
             return;
         }
 
         if (formInput.name && formInput.email && formInput.review && rating > 0) {
+            const userId = getUserId();
+
             const newReview = {
                 id: reviews.length + 1,
+                userId: userId,
                 name: formInput.name,
                 email: formInput.email,
                 rating: rating,
                 reviewText: formInput.review,
                 date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                timestamp: Date.now()
             };
 
             const updatedReviews = [...reviews, newReview];
             setReviews(updatedReviews);
 
-            // حفظ المراجعات المحدثة في الذاكرة المحلية
-            localStorage.setItem(localStorageKey, JSON.stringify(updatedReviews));
+            localStorage.setItem(reviewsStorageKey, JSON.stringify(updatedReviews));
 
-            // وضع علامة على أن المستخدم قد أرسل مراجعة
+            const userReviewedProducts = JSON.parse(localStorage.getItem(userReviewKey) || '[]');
+            if (!userReviewedProducts.includes(userId)) {
+                userReviewedProducts.push(userId);
+                localStorage.setItem(userReviewKey, JSON.stringify(userReviewedProducts));
+            }
+
             setHasReviewed(true);
-            localStorage.setItem(`user-email-${productId}`, formInput.email);
 
-            // إعادة تعيين النموذج
             setFormInput({
                 name: '',
                 email: '',
                 review: '',
             });
             setRating(0);
+
+            toast.success("Your review has been submitted successfully!");
         } else {
-            alert("يرجى ملء جميع الحقول المطلوبة وتقديم تقييم.");
+            toast.error("Please fill in all the required fields and submit a review.");
+        }
+    };
+
+    const handleAddToCart = () => {
+        if (product) {
+            if (isAddedToCart) {
+                // إذا كان المنتج مضافاً بالفعل، انتقل إلى صفحة السلة
+                navigate('/cart');
+                return;
+            }
+
+            // إضافة المنتج عدة مرات بناءً على الكمية المحددة
+            for (let i = 0; i < quantity; i++) {
+                const productToAdd = {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    categoryOne: product.categoryOne,
+                    categoryTow: product.categoryTow,
+                    quantity: 1
+                };
+                addToCart(productToAdd);
+            }
+
+            // تحديث حالة الزر
+            setIsAddedToCart(true);
+
+            // إظهار رسالة تأكيد
+            toast.success(`${quantity} ${quantity === 1 ? 'item' : 'items'} added to cart successfully!`);
         }
     };
 
     if (!product) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <p className="text-xl text-gray-700">المنتج غير موجود.</p>
+                <p className="text-xl text-gray-700">Product not found.</p>
             </div>
         );
     }
@@ -151,15 +237,15 @@ export default function ProductDetails() {
             {/* Breadcrumb Section */}
             <div className="container mx-auto px-4 pt-10">
                 <div className="text-sm text-gray-500">
-                    <Link to="/" className="hover:underline">HOME</Link>
+                    <Link to="/" className="hover:underline hover:text-indigo-700 transition duration-300">HOME</Link>
                     <span className="mx-2">/</span>
-                    <Link to="/products" className="hover:underline">PRODUCTS</Link>
+                    <Link to="/products" className="hover:underline hover:text-indigo-700 transition duration-300">PRODUCTS</Link>
                     <span className="mx-2">/</span>
-                    <Link to={getCategoryPath(product.categoryOne)} className="hover:underline">
+                    <Link to={getCategoryPath(product.categoryOne)} className="hover:underline hover:text-indigo-700 transition duration-300">
                         <span>{product.categoryOne.toUpperCase()}</span>
                     </Link>
                     {product.categoryTow && (
-                        <Link to={getCategoryPath(product.categoryTow)} className="hover:underline">
+                        <Link to={getCategoryPath(product.categoryTow)} className="hover:underline hover:text-indigo-700 transition duration-300">
                             <span className="mx-2">/</span>
                             <span>{product.categoryTow.toUpperCase()}</span>
                         </Link>
@@ -190,21 +276,31 @@ export default function ProductDetails() {
                         <div className="flex items-center space-x-2 ">
                             <div className='flex items-center border border-gray-200 rounded-md py-1.5'>
                                 <button
-                                    className="ntv w-7 h-7 flex items-center justify-center mx-2 text-gray-500 rounded-sm  text-2xl pb-1 relative  hover:bg-amber-300 duration-300"
+                                    className="ntv w-7 h-7 flex items-center justify-center mx-2 text-gray-500 rounded-sm text-2xl pb-1 relative  hover:text-white duration-300 cursor-pointer"
+                                    aria-label="Animated counter"
                                     onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                                    disabled={isAddedToCart}
                                 >
                                     -
                                 </button>
                                 <span className="px-4 py-2 text-gray-500 font-medium text-sm">{quantity}</span>
                                 <button
-                                    className=" w-7 h-7 flex items-center justify-center mx-2  text-gray-500 rounded-sm  hover:bg-amber-300 duration-300 "
+                                    className="ntv w-7 h-7 flex items-center justify-center mx-2 text-gray-500 rounded-sm text-2xl pb-1 relative hover:text-white duration-300 cursor-pointer"
+                                    aria-label="Animated counter"
                                     onClick={() => setQuantity(prev => prev + 1)}
+                                    disabled={isAddedToCart}
                                 >
                                     +
                                 </button>
                             </div>
-                            <button className="btn-add bg-gray-100 text-gray-700 py-3 px-40 rounded-md font-semibold transition-colors duration-300">
-                                Add to cart
+                            <button
+                                onClick={handleAddToCart}
+                                className={`py-3 px-13 md:px-15 lg:px-36 rounded-md font-semibold cursor-pointer transition-colors duration-300 ${isAddedToCart
+                                    ? 'bg-green-500 text-white hover:bg-green-600'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-indigo-600 hover:text-gray-50'
+                                    }`}
+                            >
+                                {isAddedToCart ? 'View Cart' : 'Add to cart'}
                             </button>
                         </div>
                         <hr className='border-zinc-200 mt-8' />
@@ -243,7 +339,6 @@ export default function ProductDetails() {
 
                 {activeTab === 'description' && (
                     <div className="prose max-w-none text-gray-700">
-                        {/* استخدام الوصف الكامل من الدالة الجديدة */}
                         <p>{getFullDescription(product.id)}</p>
                     </div>
                 )}
@@ -256,7 +351,7 @@ export default function ProductDetails() {
                                 reviews.map((review) => (
                                     <div key={review.id} className="border-b border-gray-200 pb-4 mb-4">
                                         <div className="flex items-center mb-2">
-                                            <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-bold mr-4">
+                                            <div className="w-[66px] md:w-10 h-[66px] lg:h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-bold mr-4">
                                                 {review.name.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
@@ -282,7 +377,7 @@ export default function ProductDetails() {
                         <div>
                             {hasReviewed ? (
                                 <p className="text-xl font-bold text-green-600">
-                                    شكراً لك! لقد قمت بالفعل بتقديم مراجعة لهذا المنتج.
+                                    Thank you! You have already submitted a review for this product.
                                 </p>
                             ) : (
                                 <div>
@@ -322,7 +417,7 @@ export default function ProductDetails() {
                                                 name="name"
                                                 value={formInput.name}
                                                 onChange={handleChange}
-                                                className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors duration-200"
+                                                className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:placeholder-transparent transition-colors duration-200"
                                             />
                                             <input
                                                 type="email"
@@ -330,7 +425,7 @@ export default function ProductDetails() {
                                                 name="email"
                                                 value={formInput.email}
                                                 onChange={handleChange}
-                                                className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors duration-200"
+                                                className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:placeholder-transparent transition-colors duration-200"
                                             />
                                         </div>
 
@@ -341,7 +436,7 @@ export default function ProductDetails() {
                                                 name="review"
                                                 value={formInput.review}
                                                 onChange={handleChange}
-                                                className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors duration-200"
+                                                className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 focus:placeholder-transparent transition-colors duration-200"
                                             ></textarea>
                                         </div>
 
@@ -349,7 +444,7 @@ export default function ProductDetails() {
                                             <input
                                                 type="checkbox"
                                                 id="save-info"
-                                                className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500"
+                                                className="w-4 h-4 text-orange-500 rounded focus:ring-orange-500 "
                                             />
                                             <label htmlFor="save-info" className="ml-2 text-gray-700">
                                                 Save my name, email, and website in this browser for the next time I comment.
@@ -358,7 +453,7 @@ export default function ProductDetails() {
 
                                         <button
                                             type="submit"
-                                            className="bg-gray-800 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-700 transition-colors duration-200"
+                                            className="bg-gray-800 text-white w-32 py-3 rounded-md font-semibold hover:bg-gray-700 transition-colors duration-200"
                                         >
                                             Submit
                                         </button>
@@ -371,14 +466,21 @@ export default function ProductDetails() {
             </div>
 
             {/* Related Products Section */}
-            <div className="container mx-auto px-4 py-16">
+            <div className="container mx-auto px-4 py-20">
                 <h2 className="text-2xl font-bold mb-6">Related products</h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <div className="card-productsss grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8">
                     {relatedProducts.map(relatedProduct => (
-                        <RelatedProductCard key={relatedProduct.id} product={relatedProduct} />
+                        <RelatedProductCard
+                            key={relatedProduct.id}
+                            product={relatedProduct}
+                            onAddToCart={addToCart}
+                        />
                     ))}
                 </div>
+            </div>
+            <div className='footer-product bg-black h-0 top-[170px] md:top-[-80px] lg:top-[315px]  relative'>
+                <Footer />
             </div>
         </div>
     );

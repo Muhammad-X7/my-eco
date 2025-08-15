@@ -10,7 +10,7 @@ export default function ProductsHome() {
         <div className=''>
             <ProductsPageHeader categoryName={categoryName} />
             <AllProducts />
-            <div className='top-88 relative h-0'>
+            <div className='top-40 md:-top-20 lg:top-88 relative h-0'>
                 <Footer />
             </div>
         </div>

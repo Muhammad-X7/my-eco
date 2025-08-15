@@ -1,12 +1,39 @@
 // ProductCard.jsx
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../products/CreateContext';
 import "../home/ProductCard.css";
 
-
 const ProductCard = ({ name, price, categoryOne, categoryTow, image, id }) => {
+    const { addToCart, cartItems } = useCart();
+    const [isAdded, setIsAdded] = useState(false);
+
+    // التحقق من وجود المنتج في السلة
+    const isInCart = cartItems.some(item => item.id === parseInt(id));
+
     const getCategoryPath = (category) => {
         if (!category) return '#';
         return `/category/${encodeURIComponent(category.toLowerCase().replace(/, /g, '-').replace(/\s/g, '-'))}`;
+    };
+
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+        const product = {
+            id: parseInt(id),
+            name,
+            price: typeof price === 'string' ? parseFloat(price.replace('$', '')) : price,
+            image,
+            categoryOne,
+            categoryTow
+        };
+        addToCart(product);
+        setIsAdded(true);
+    };
+
+    const handleViewCart = (e) => {
+        e.preventDefault();
+        // يمكنك إضافة التوجه إلى صفحة السلة هنا
+        window.location.href = '/cart';
     };
 
     return (
@@ -30,7 +57,6 @@ const ProductCard = ({ name, price, categoryOne, categoryTow, image, id }) => {
                         </Link>
                     )}
 
-
                     {categoryTow && (
                         <Link to={getCategoryPath(categoryTow)} className="uppercase tracking-wide hover:underline">
                             <span className='-left-1.5 relative'>,</span>{categoryTow}
@@ -41,9 +67,21 @@ const ProductCard = ({ name, price, categoryOne, categoryTow, image, id }) => {
                     )}
                 </div>
 
-                <button className="btn-card w-32 cursor-pointer text-gray-700 font-bold py-2 rounded-md bg-gray-100 transition-colors duration-200">
-                    Add to cart
-                </button>
+                {(isAdded || isInCart) ? (
+                    <button
+                        onClick={handleViewCart}
+                        className="btn-card w-32 cursor-pointer text-white font-bold py-2 rounded-md bg-green-500 hover:bg-green-600 transition-colors duration-300"
+                    >
+                        View cart
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleAddToCart}
+                        className="btn-card w-32 cursor-pointer text-gray-700 hover:text-gray-50 font-bold py-2 rounded-md bg-gray-100 hover:bg-indigo-600 transition-colors duration-300"
+                    >
+                        Add to cart
+                    </button>
+                )}
             </div>
         </div>
     );

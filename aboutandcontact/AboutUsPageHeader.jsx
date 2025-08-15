@@ -8,7 +8,7 @@ export default function AboutUsPageHeader() {
                     <p className="text-gray-600 text-xs mb-7">
                         <Link to="/home" className="text-zinc-500 font-semibold hover:text-zinc-50 duration-300">HOME</Link>
                         <span className="px-2 text-zinc-50">/</span>
-                        <span className="text-zinc-50 font-semibold">About US</span>
+                        <span className="text-gray-300 font-semibold uppercase">About US</span>
                     </p>
                     <h1 className="text-4xl md:text-6xl font-bold text-zinc-50">
                         About Us

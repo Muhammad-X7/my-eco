@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function StatsAndCTASection() {
     return (
         <section className="bg-gray-50 py-16 md:py-24 text-center -top-60 md:-top-56 relative">
@@ -28,12 +30,14 @@ export default function StatsAndCTASection() {
                 </p>
                 {/* Call-to-Action Buttons */}
                 <div className="flex flex-col lg:flex-row justify-center items-center gap-4">
-                    <button className="w-36 h-20 md:h-full md:w-40 bg-gray-800 hover:bg-gray-950 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 shadow-md">
+                    <button className="w-36 h-20 md:h-full md:w-40 bg-gray-800 hover:bg-gray-950 text-white font-semibold py-3 px-8 rounded-lg cursor-pointer transition duration-300 shadow-md">
                         Apply Now
                     </button>
-                    <button className="bg-transparent border border-gray-300 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-8 rounded-lg transition duration-300 shadow-sm">
-                        Contact Us
-                    </button>
+                    <Link to="/contact-us">
+                        <button className="bg-transparent border border-gray-300 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-8 rounded-lg cursor-pointer transition duration-300 shadow-sm">
+                            Contact Us
+                        </button>
+                    </Link>
                 </div>
             </div>
         </section>

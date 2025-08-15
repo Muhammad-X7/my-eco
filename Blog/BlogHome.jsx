@@ -12,7 +12,7 @@ export default function BlogHome() {
             {/* عرض عنوان المدونة أو اسم الفئة */}
             <BlogHeader pageTitle={categoryName || "Blog"} />
             <AllArticles category={categoryName} />
-            <div className='top-88 relative h-0'>
+            <div className='top-36 md:-top-24 lg:top-88 relative h-0'>
                 <Footer />
             </div>
         </div>
