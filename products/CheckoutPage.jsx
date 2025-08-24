@@ -228,7 +228,7 @@ const CheckoutPage = () => {
                                         <div className="flex items-center space-x-3">
                                             <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded" />
                                             <div>
-                                                <p className="font-medium text-sm">{item.name}</p>
+                                                <p className="font-medium text-sm text-gray-800">{item.name}</p>
                                                 <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
                                             </div>
                                         </div>
