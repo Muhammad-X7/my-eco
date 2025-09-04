@@ -1,21 +1,23 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { allProducts } from './ProductsData';
+import { allProducts } from '../products/ProductsData';
 
 import ProductCard from '../home/ProductCard';
 import "../home/FeaturedProducts.css";
 
 
 const AllProducts = () => {
-    const { categoryName } = useParams();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { categoryName } = useParams(); // Get category name from URL if available
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Toggle for sort dropdown
     const [selectedSortOption, setSelectedSortOption] = useState(() => {
+        // Load previously selected sort option from localStorage or default to 'popularity'
         const savedSortOption = localStorage.getItem('productSortOption');
         return savedSortOption || 'popularity';
     });
-    const dropdownRef = useRef(null);
-    const [sortedProducts, setSortedProducts] = useState([]);
+    const dropdownRef = useRef(null); // Reference to detect clicks outside dropdown
+    const [sortedProducts, setSortedProducts] = useState([]); // Filtered and sorted products
 
+    // Sorting options for dropdown
     const sortOptions = [
         { value: 'popularity', label: 'Sort by popularity' },
         { value: 'average_rating', label: 'Sort by average rating' },
@@ -25,10 +27,11 @@ const AllProducts = () => {
         { value: 'default', label: 'Default sorting' },
     ];
 
-    // منطق الفلترة والتصنيف الجديد
+    // Filter and sort products whenever category or selected sort option changes
     useEffect(() => {
         let productsToFilter = allProducts;
-        // منطق الفلترة بناءً على الفئة من الـ URL
+
+        // Filter products based on category from URL
         if (categoryName) {
             productsToFilter = allProducts.filter(p =>
                 p.categoryOne?.toLowerCase() === categoryName?.toLowerCase().replace(/-/g, ' ') ||
@@ -38,6 +41,7 @@ const AllProducts = () => {
 
         let tempProducts = [...productsToFilter];
 
+        // Apply sorting logic
         switch (selectedSortOption) {
             case 'popularity':
                 tempProducts.sort((a, b) => b.popularity - a.popularity);
@@ -60,9 +64,10 @@ const AllProducts = () => {
                 break;
         }
 
-        setSortedProducts(tempProducts);
+        setSortedProducts(tempProducts); // Update state with filtered & sorted products
     }, [selectedSortOption, categoryName]);
 
+    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -76,9 +81,10 @@ const AllProducts = () => {
         };
     }, []);
 
+    // Handle user selecting a sort option
     const handleSortChange = (option) => {
         setSelectedSortOption(option);
-        localStorage.setItem('productSortOption', option);
+        localStorage.setItem('productSortOption', option); // Save preference
         setIsDropdownOpen(false);
     };
 
@@ -87,17 +93,21 @@ const AllProducts = () => {
     return (
         <div className="padding bg-gray-50 p-16 lg:pb-32 lg:top-3 relative">
             <div className="container mx-auto">
+                {/* Top bar: Showing results & sort dropdown */}
                 <div className="flex justify-between items-center mb-8 flex-col sm:flex-row">
+                    {/* Display number of results and category */}
                     <div className="text-gray-700 text-lg mb-4 sm:mb-0">
                         {categoryName ? `SHOWING ALL ${sortedProducts.length} RESULTS FOR ${categoryName.toUpperCase().replace(/-/g, ' ')}` : `SHOWING ALL ${sortedProducts.length} RESULTS`}
                     </div>
+
+                    {/* Sort dropdown */}
                     <div className="relative" ref={dropdownRef}>
                         <button
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700 truncate  hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 w-56 flex justify-between items-center"
                         >
                             <span>{currentSortLabel}</span>
-                            <svg className={`w-4 h-4 ml-2 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg className={`w-4 h-4 ml-2 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
@@ -118,6 +128,7 @@ const AllProducts = () => {
                     </div>
                 </div>
 
+                {/* Product grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {sortedProducts.map((product) => (
                         <ProductCard

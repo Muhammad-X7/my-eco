@@ -1,5 +1,3 @@
-// src/components/TestimonialCard.jsx
-
 export default function TestimonialCard({ avatar, quote, name, title }) {
     return (
         <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-start text-left">

@@ -2,19 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
-    const [input, setInput] = useState({ name: "", password: "" });
-    const [showPassword, setShowPassword] = useState(false);
+    const [input, setInput] = useState({ name: "", password: "" }); // Input state for username and password
+    const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
 
-    // مرجع للعنصر الرئيسي
+    // Reference to main modal element
     const modalRef = useRef(null);
 
+    // Reset input fields when modal opens
     useEffect(() => {
         if (isOpen) {
-            setInput({ name: "", password: "" }); // تصفير الحقول عند فتح النافذة
+            setInput({ name: "", password: "" });
         }
     }, [isOpen]);
 
-    // معالجة الضغط خارج العنصر
+    // Close modal when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (modalRef.current && !modalRef.current.contains(event.target) && isOpen) {
@@ -33,7 +34,7 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
         };
     }, [isOpen, onClose]);
 
-    // معالجة زر العودة في المتصفح
+    // Handle browser back button to close modal
     useEffect(() => {
         const handlePopState = () => {
             if (isOpen) {
@@ -51,7 +52,7 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
         };
     }, [isOpen, onClose]);
 
-    // معالجة الضغط على Escape
+    // Close modal on Escape key
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape' && isOpen) {
@@ -66,10 +67,12 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, onClose]);
 
-    if (!isOpen) return null;
+    if (!isOpen) return null; // Don't render if modal is closed
 
+    // Toggle password visibility
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+    // Handle form submission for registration
     const handleRegister = (e) => {
         e.preventDefault();
         const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
@@ -85,10 +88,10 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
 
         toast.success("Account created successfully!");
         onClose();
-        onSwitchToLogin();
+        onSwitchToLogin(); // Switch to login after successful registration
     };
 
-    // إغلاق عند الضغط على الخلفية
+    // Close modal when clicking backdrop
     const handleBackdropClick = (e) => {
         if (e.target === e.currentTarget) {
             onClose();
@@ -101,15 +104,19 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
             onClick={handleBackdropClick}
         >
             <div ref={modalRef} className="bg-white p-8 md:p-12 rounded-lg shadow-lg relative w-full max-w-md mx-auto">
+                {/* Close button */}
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl"
                 >
                     <img src="/close-b.png" alt="close-icon" className="w-8 hover:rotate-90 cursor-pointer transition duration-400" />
                 </button>
+
                 <h2 className="text-xl font-semibold mb-6 text-gray-800 text-center">
                     Create Account
                 </h2>
+
+                {/* Registration form */}
                 <form onSubmit={handleRegister}>
                     <div className="mb-6">
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
@@ -160,6 +167,7 @@ export default function UserRegister({ isOpen, onClose, onSwitchToLogin }) {
                     </button>
                 </form>
 
+                {/* Switch to Login */}
                 <p className="text-center text-sm text-gray-600 mt-4">
                     Already have an account?{" "}
                     <button onClick={onSwitchToLogin} className="text-blue-600 hover:underline cursor-pointer">

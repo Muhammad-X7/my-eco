@@ -5,10 +5,8 @@ export default function NewsletterSection() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // هنا يمكنك إضافة منطق لإرسال البريد الإلكتروني إلى الخادم
-        console.log('Email submitted:', email);
         toast.success(`Thank you for subscribing, ${email}!`);
-        setEmail(''); // مسح حقل البريد الإلكتروني بعد الإرسال
+        setEmail('');
     };
 
     return (

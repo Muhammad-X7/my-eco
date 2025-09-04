@@ -38,7 +38,7 @@ const CheckoutPage = () => {
     const handleProceedToPayment = (e) => {
         e.preventDefault();
 
-        // التحقق من الحقول المطلوبة
+        // Validate required fields
         const requiredFields = ['firstName', 'lastName', 'streetAddress', 'city', 'zipCode', 'phone', 'email'];
         const missingFields = requiredFields.filter(field => !formData[field].trim());
 
@@ -47,7 +47,7 @@ const CheckoutPage = () => {
             return;
         }
 
-        // حفظ بيانات الفاتورة في localStorage للاستخدام في صفحة الدفع
+        // Save the invoice data in localStorage for use on the payment page
         localStorage.setItem('checkoutData', JSON.stringify({
             billingDetails: formData,
             cartItems: cartItems,
@@ -55,11 +55,11 @@ const CheckoutPage = () => {
             orderDate: new Date().toISOString()
         }));
 
-        // الانتقال إلى صفحة طرق الدفع
+        // Navigate to the payment methods page
         navigate('/payment-methods');
     };
 
-    // إذا كانت السلة فارغة، إعادة التوجيه إلى صفحة السلة
+    // If the cart is empty, redirect to the cart page
     if (cartItems.length === 0) {
         return (
             <div className="min-h-screen bg-white">

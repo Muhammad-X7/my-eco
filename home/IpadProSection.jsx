@@ -28,6 +28,7 @@ export default function IpadProSection() {
                         src='/home-page-cta-ipad.webp'
                         alt="iPad Pro"
                         className="image-ip w-full max-w-2xs sm:max-w-sm lg:max-w-3xl h-auto  object-cover md:-left-48 lg:left-5 relative"
+                        loading="lazy"
                     />
                     {/* Floating "Super Powerful Chip" Card */}
                     <div className="sup hidden md:block absolute bg-zinc-800 opacity-75 backdrop-blur-sm rounded-lg p-3 md:p-4 text-xs md:text-sm max-w-xs left-1/2 transform -translate-x-1/2 top-1/3 md:left-1/3 md:top-64 lg:left-1/3 lg:top-96">

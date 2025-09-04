@@ -15,10 +15,10 @@ export default function Header() {
   const { closeCart, getTotalItems } = useCart();
   const location = useLocation();
 
-  // مرجع للعنصر الرئيسي للهيدر
+  // Reference to the main header element
   const headerRef = useRef(null);
 
-  // إغلاق جميع الـ overlays عند تغيير المسار
+  // Close all overlays when the route changes
   useEffect(() => {
     closeCart();
     setIsMobileMenuOpen(false);
@@ -27,7 +27,7 @@ export default function Header() {
     setIsUserRegisterOpen(false);
   }, [location.pathname, closeCart]);
 
-  // إضافة وإزالة event listener للضغط خارج القائمة
+  // Add and remove event listener for clicks outside the menu
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (headerRef.current && !headerRef.current.contains(event.target) && isMobileMenuOpen) {
@@ -46,7 +46,7 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  // معالجة زر العودة في المتصفح
+  // Handle the browser back button
   useEffect(() => {
     const handlePopState = () => {
       if (isMobileMenuOpen) {
@@ -55,7 +55,7 @@ export default function Header() {
     };
 
     if (isMobileMenuOpen) {
-      // إضافة state جديد إلى التاريخ عندما تفتح القائمة
+      // Add a new state to the history when opening the menu
       window.history.pushState({ mobileMenuOpen: true }, '');
       window.addEventListener('popstate', handlePopState);
     }

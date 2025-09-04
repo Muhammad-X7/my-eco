@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom"
+import { toast } from 'react-toastify';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,8 +13,6 @@ import {
 
 import CartFooter from "../products/CartFooter"
 import { useCart } from '../products/CreateContext';
-import Footer from "../home/Footer"
-
 
 const PaymentMethods = () => {
     const { clearCart } = useCart();
@@ -26,7 +25,7 @@ const PaymentMethods = () => {
         cardholderName: ''
     });
 
-    // تحميل بيانات الطلب من localStorage
+    // Load request data from localStorage
     useEffect(() => {
         const savedCheckoutData = localStorage.getItem('checkoutData');
         if (savedCheckoutData) {
@@ -64,7 +63,7 @@ const PaymentMethods = () => {
             available: false
         }
     ];
-
+    //a
     const handlePaymentInputChange = (e) => {
         const { name, value } = e.target;
         setPaymentData(prev => ({
@@ -72,10 +71,9 @@ const PaymentMethods = () => {
             [name]: value
         }));
     };
-
     const handleCompletePayment = () => {
         if (!selectedMethod) {
-            alert('Please select a payment method');
+            toast.error('Please select a payment method');
             return;
         }
 
@@ -84,12 +82,12 @@ const PaymentMethods = () => {
             const missingFields = requiredFields.filter(field => !paymentData[field].trim());
 
             if (missingFields.length > 0) {
-                alert('Please fill in all payment details');
+                toast.error('Please fill in all payment details');
                 return;
             }
         }
 
-        // معالجة الدفع
+        // Handle payment
         const orderData = {
             ...checkoutData,
             paymentMethod: selectedMethod,
@@ -98,31 +96,26 @@ const PaymentMethods = () => {
             orderStatus: 'completed'
         };
 
-        console.log('Order completed:', orderData);
 
-        // حفظ الطلب
+        // Save order
         const existingOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
         existingOrders.push(orderData);
         localStorage.setItem('userOrders', JSON.stringify(existingOrders));
 
-        // مسح بيانات الطلب المؤقتة
+        // Clear temporary order data
         localStorage.removeItem('checkoutData');
 
-        // مسح السلة
+        // Clear the cart
         clearCart();
 
-        alert('Payment completed successfully! Your order has been placed.');
+        toast.success('Payment completed successfully! Your order has been placed.');
 
-        // العودة للصفحة الرئيسية
+        // Go back to the Home Page
         window.location.href = '/';
     };
 
     const goBackToCheckout = () => {
         window.history.back();
-    };
-
-    const formatPrice = (price) => {
-        return `$${price?.toFixed(2) || '0.00'}`;
     };
 
     if (!checkoutData) {
@@ -228,6 +221,7 @@ const PaymentMethods = () => {
                                                 <input
                                                     type="text"
                                                     placeholder="1234 5678 9012 3456"
+                                                    onChange={handlePaymentInputChange}
                                                     className="w-full p-3 border border-gray-300 text-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                                 />
                                             </div>
@@ -239,6 +233,8 @@ const PaymentMethods = () => {
                                                     <input
                                                         type="text"
                                                         placeholder="MM/YY"
+                                                        onChange={handlePaymentInputChange}
+
                                                         className="w-full p-3 border border-gray-300 text-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                                     />
                                                 </div>
@@ -249,6 +245,7 @@ const PaymentMethods = () => {
                                                     <input
                                                         type="text"
                                                         placeholder="123"
+                                                        onChange={handlePaymentInputChange}
                                                         className="w-full p-3 border border-gray-300 text-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                                     />
                                                 </div>
@@ -260,6 +257,7 @@ const PaymentMethods = () => {
                                                 <input
                                                     type="text"
                                                     placeholder="John Doe"
+                                                    onChange={handlePaymentInputChange}
                                                     className="w-full p-3 border border-gray-300 text-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                                 />
                                             </div>
@@ -297,7 +295,7 @@ const PaymentMethods = () => {
                             <div className="space-y-4 text-sm text-gray-600">
                                 <div className="flex items-start">
                                     <img src="/check.png" alt="Check-icon" className="w-4 mr-2 top-0.5 relative" />
-                                    F                                    <p>SSL encrypted secure connection</p>
+                                    <p>SSL encrypted secure connection</p>
                                 </div>
                                 <div className="flex items-start">
                                     <img src="/check.png" alt="Check-icon" className="w-4 mr-2 top-0.5 relative" />
@@ -333,6 +331,7 @@ const PaymentMethods = () => {
                 <div className="mt-8 flex justify-between items-center">
                     <Link
                         to="/checkout"
+                        onClick={goBackToCheckout}
                         className="w-36 py-3 text-center bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
                     >
                         Back to Checkout
@@ -340,6 +339,7 @@ const PaymentMethods = () => {
 
                     <button
                         disabled={!selectedMethod}
+                        onClick={handleCompletePayment} // ← هنا
                         className={`w-48 md:w-56 py-3 text-center rounded-md font-semibold transition-colors ${selectedMethod
                             ? 'bg-indigo-600 text-white hover:bg-indigo-700 cursor-pointer'
                             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -349,6 +349,7 @@ const PaymentMethods = () => {
                             {selectedMethod ? 'Complete Payment' : 'Select Payment Method'}
                         </span>
                     </button>
+
                 </div>
             </main>
             <div>
@@ -360,4 +361,3 @@ const PaymentMethods = () => {
 };
 
 export default PaymentMethods;
-

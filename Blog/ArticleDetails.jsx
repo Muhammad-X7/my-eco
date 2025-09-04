@@ -21,6 +21,7 @@ export default function ArticleDetails() {
     return (
         <div className="bg-white text-gray-900 pb-28">
 
+            {/* Article Header */}
             <section
 
                 className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center text-white text-center"
@@ -50,7 +51,7 @@ export default function ArticleDetails() {
                 </div>
             </section>
 
-            {/* ✅ محتوى المقال */}
+            {/* Article Content */}
             <div className="container mx-auto px-4 py-16 max-w-4xl">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Felis donec et odio pellentesque diam volutpat. Ullamcorper malesuada proin libero nunc consequat interdum varius. Consequat mauris nunc congue nisi vitae suscipit tellus. Feugiat pretium nibh ipsum consequat nisl vel pretium. Volutpat commodo sed egestas egestas fringilla phasellus faucibus scelerisque eleifend. Massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Id eu nisl nunc mi ipsum faucibus vitae aliquet. Magna sit amet purus gravida quis blandit turpis cursus in. Sagittis eu volutpat odio facilisis. Fermentum leo vel orci porta non pulvinar neque laoreet suspendisse. Sapien faucibus et molestie ac feugiat. Quis risus sed vulputate odio ut. Scelerisque fermentum dui faucibus in ornare quam viverra. Aliquet sagittis id consectetur purus ut faucibus. Vitae tempus quam pellentesque nec nam aliquam sem.</p>
 
@@ -69,7 +70,7 @@ export default function ArticleDetails() {
 
             </div>
 
-            {/* ✅ نموذج التعليق */}
+            {/* Comment Form */}
             <div className="container mx-auto px-4 py-8 max-w-4xl">
                 <h3 className="text-2xl font-bold mb-6">Leave a Reply</h3>
                 <form className="space-y-4">

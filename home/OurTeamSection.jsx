@@ -1,8 +1,6 @@
-// src/components/OurTeamSection.jsx
 import TeamMemberCard from './TeamMemberCard';
 
-// استيراد صورة الفريق الكبيرة
-import teamHeroImage from './assets/home-page-cta-ipad.webp'; // افترض أن هذا الملف موجود
+import teamHeroImage from './home-page-cta-ipad.webp';
 
 export default function OurTeamSection() {
     const teamMembers = [
@@ -30,7 +28,6 @@ export default function OurTeamSection() {
             title: "Support & Care",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing.",
         },
-        // أضف المزيد من أعضاء الفريق هنا إذا لزم الأمر
     ];
 
     return (
@@ -39,17 +36,10 @@ export default function OurTeamSection() {
                 {/* Hero Image Section */}
                 <div
                     className="relative bg-cover bg-center rounded-lg shadow-xl overflow-hidden mb-12 md:mb-16"
-                    style={{ backgroundImage: `url(${teamHeroImage})`, height: '400px' }} // يمكنك تعديل الارتفاع
+                    style={{ backgroundImage: `url(${teamHeroImage})`, height: '400px' }}
                 >
                     {/* Optional: Overlay for better text readability if needed */}
                     <div className="absolute inset-0 bg-black opacity-10 rounded-lg"></div>
-
-                    {/* يمكنك إضافة أي محتوى على الصورة هنا إذا لزم الأمر، مثل عنوان أو شعار */}
-                    {/*
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-white text-4xl md:text-5xl font-bold">Meet Our Team</h2>
-          </div>
-          */}
                 </div>
 
                 {/* Team Members Grid */}

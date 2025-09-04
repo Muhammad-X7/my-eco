@@ -1,4 +1,3 @@
-
 import TestimonialCard from '../aboutandcontact/TestimonialCard';
 
 export default function TestimonialsSection() {

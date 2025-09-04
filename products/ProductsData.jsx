@@ -124,7 +124,6 @@ export const allProducts = [
     }
 ];
 
-// يمكنك أيضاً إضافة وظيفة الوصف الكامل هنا
 export const getFullDescription = (productId) => {
     switch (productId) {
         case 1:

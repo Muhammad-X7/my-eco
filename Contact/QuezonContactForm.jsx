@@ -21,7 +21,7 @@ export default function QuezonContactForm() {
         }));
     };
 
-    // التحقق من صحة البيانات والانتقال إلى الحقل المطلوب
+    // Validate form fields and focus the first invalid input
     const validateFormAndFocus = () => {
         if (!formData.firstName.trim()) {
             document.querySelector('input[name="firstName"]').focus();
@@ -57,19 +57,18 @@ export default function QuezonContactForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // التحقق من صحة البيانات والانتقال إلى الحقل المطلوب
+        // Validate the form data and focus on the required field
         if (!validateFormAndFocus()) {
             return;
         }
 
         setIsSubmitting(true);
 
-        // محاكاة إرسال البيانات
+        // Simulate sending the data
         setTimeout(() => {
-            console.log('Form Data to be sent:', formData);
             toast.success('Message sent successfully!');
 
-            // إعادة تعيين النموذج
+            // Reset the form
             setFormData({
                 firstName: '',
                 lastName: '',
@@ -83,10 +82,10 @@ export default function QuezonContactForm() {
     };
     return (
         <div className="min-h-screen bg-gray-50 py-6 md:py-12 px-4 md:px-10">
-            {/* Container - يتغير من flex-row إلى flex-col في الشاشات الصغيرة */}
+            {/* Container */}
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 max-w-7xl mx-auto">
 
-                {/* Map Section - يظهر أولاً في الشاشات الصغيرة */}
+                {/* Map Section */}
                 <div className="w-full lg:w-1/2 relative rounded-2xl shadow-lg order-1 lg:order-1">
                     <div className="relative h-[300px] md:h-[400px] lg:h-[700px]">
                         <iframe
@@ -101,7 +100,7 @@ export default function QuezonContactForm() {
                     </div>
                 </div>
 
-                {/* Contact Form Section - يظهر ثانياً في الشاشات الصغيرة */}
+                {/* Contact Form Section */}
                 <div className="w-full lg:w-1/2 p-4 md:p-8 bg-white rounded-2xl shadow-lg order-2 lg:order-2">
                     <div className="max-w-lg mx-auto">
                         <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6">Send us a message</h1>

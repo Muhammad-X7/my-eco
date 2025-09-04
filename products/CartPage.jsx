@@ -1,28 +1,29 @@
-// CartPage.jsx - صفحة السلة المنفصلة
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faTrash, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-
 import { useCart } from '../products/CreateContext';
 
 export default function CartPage() {
+    // Get cart state and actions from context
     const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
 
+    // Format number to USD price string
     const formatPrice = (price) => {
         return `$${price.toFixed(2)}`;
     };
 
     return (
         <div className="bg-gray-50 min-h-screen">
-            {/* Main Content */}
+            {/* Main content */}
             <main className="container mx-auto px-4 md:px-6 lg:px-8 py-16">
+                {/* Header: Title + Clear Cart button */}
                 <div className="flex justify-between items-center mb-10">
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
                         Cart
                     </h1>
                     {cartItems.length > 0 && (
                         <button
-                            onClick={clearCart}
+                            onClick={clearCart} // Clear all items from cart
                             className="px-4 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition-colors duration-200 flex items-center space-x-2"
                         >
                             <FontAwesomeIcon icon={faTrash} className="text-sm" />
@@ -32,7 +33,7 @@ export default function CartPage() {
                 </div>
 
                 {cartItems.length === 0 ? (
-                    // عربة فارغة
+                    // If cart is empty
                     <>
                         <div className="bg-gray-100 p-6 rounded-lg flex items-center text-gray-700 text-lg mb-8">
                             <FontAwesomeIcon
@@ -42,6 +43,7 @@ export default function CartPage() {
                             <p>Your cart is currently empty.</p>
                         </div>
 
+                        {/* Button to return to products */}
                         <Link to="/products">
                             <button className="px-8 py-3 bg-gray-200 text-gray-800 font-semibold rounded-md hover:bg-gray-300 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75">
                                 Return to shop
@@ -49,12 +51,12 @@ export default function CartPage() {
                         </Link>
                     </>
                 ) : (
-                    // عربة تحتوي على منتجات
+                    // Cart contains products
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* قائمة المنتجات */}
+                        {/* Product list */}
                         <div className="lg:col-span-2">
                             <div className="bg-white rounded-lg shadow-sm border">
-                                {/* Header */}
+                                {/* Table header */}
                                 <div className="grid grid-cols-12 gap-4 p-4 border-b bg-gray-50 font-semibold text-gray-700">
                                     <div className="col-span-6">Product</div>
                                     <div className="col-span-2 text-center">Quantity</div>
@@ -62,10 +64,10 @@ export default function CartPage() {
                                     <div className="col-span-2 text-center">Actions</div>
                                 </div>
 
-                                {/* منتجات السلة */}
+                                {/* Cart items */}
                                 {cartItems.map((item) => (
                                     <div key={item.id} className="grid grid-cols-12 gap-4 p-4 border-b items-center">
-                                        {/* معلومات المنتج */}
+                                        {/* Product info */}
                                         <div className="col-span-6 flex items-center space-x-4">
                                             <img
                                                 src={item.image}
@@ -86,7 +88,7 @@ export default function CartPage() {
                                             </div>
                                         </div>
 
-                                        {/* الكمية */}
+                                        {/* Quantity selector */}
                                         <div className="col-span-2 flex justify-center">
                                             <div className="flex items-center border border-gray-200 rounded-md">
                                                 <button
@@ -105,12 +107,12 @@ export default function CartPage() {
                                             </div>
                                         </div>
 
-                                        {/* المجموع الفرعي */}
+                                        {/* Subtotal */}
                                         <div className="col-span-2 text-center font-semibold">
                                             {formatPrice(item.price * item.quantity)}
                                         </div>
 
-                                        {/* إجراءات */}
+                                        {/* Remove button */}
                                         <div className="col-span-2 text-center">
                                             <button
                                                 onClick={() => removeFromCart(item.id)}
@@ -124,7 +126,7 @@ export default function CartPage() {
                                 ))}
                             </div>
 
-                            {/* أزرار الإجراءات */}
+                            {/* Cart action buttons */}
                             <div className="flex justify-between items-center mt-6">
                                 <Link to="/products">
                                     <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">
@@ -132,7 +134,7 @@ export default function CartPage() {
                                     </button>
                                 </Link>
 
-                                {/* Update Cart Button */}
+                                {/* Coupon & update */}
                                 <div className="flex items-center space-x-4">
                                     <input
                                         type="text"
@@ -149,7 +151,7 @@ export default function CartPage() {
                             </div>
                         </div>
 
-                        {/* ملخص السلة */}
+                        {/* Cart totals */}
                         <div className="lg:col-span-1">
                             <div className="bg-gray-50 p-6 rounded-lg shadow-sm border sticky top-4">
                                 <h2 className="text-xl font-bold mb-4 ">Cart totals</h2>

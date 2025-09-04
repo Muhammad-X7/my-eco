@@ -4,31 +4,31 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: red;
   background-color: #111518;
+  /* Prevent horizontal scrolling */
   overflow-x: hidden;
+  /* Typography rendering optimizations */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Reset default margin, padding, list style and text decoration for all elements */
+/* Reset default box-sizing, margin, padding, list-style, and text-decoration */
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
-
 }
 
-/* Smooth scroll behavior for anchor links */
+/* Enable smooth scrolling when navigating anchor links (#id) */
 html {
   scroll-behavior: smooth;
 }
 
-/* General container (responsive design) */
+/* Custom container class for responsive layouts */
 .container {
   padding-left: 15px;
   padding-right: 15px;
@@ -36,34 +36,36 @@ html {
   margin-right: auto;
 }
 
-/* Responsive widths for different screen sizes */
+/* Container width for tablets (≥768px) */
 @media (min-width: 768px) {
   .container {
     width: 750px;
   }
 }
 
+/* Container width for medium desktops (≥992px) */
 @media (min-width: 992px) {
   .container {
     width: 970px;
   }
 }
 
+/* Container width for large desktops (≥1200px) */
 @media (min-width: 1200px) {
   .container {
     width: 1170px;
   }
 }
 
-
-/* هذا الكلاس لإخفاء الشريط في كل المتصفحات */
+/* Hide scrollbar in WebKit browsers (Chrome, Safari, etc.) */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
+/* Hide scrollbar in IE, Edge, and Firefox */
 .scrollbar-hide {
   -ms-overflow-style: none;
-  /* للإنترنت إكسبلورر */
+  /* IE and old Edge */
   scrollbar-width: none;
-  /* لمتصفح فايرفوكس */
+  /* Firefox */
 }

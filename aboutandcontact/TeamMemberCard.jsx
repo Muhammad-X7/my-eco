@@ -1,5 +1,3 @@
-// src/components/TeamMemberCard.jsx
-
 export default function TeamMemberCard({ name, title, description }) {
     return (
         <div className="bg-white rounded-lg shadow-md p-6 text-center">

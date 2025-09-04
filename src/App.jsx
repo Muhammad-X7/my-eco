@@ -1,9 +1,13 @@
 import { Route, Routes } from "react-router-dom";
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import ErrorBoundary from './ErrorBoundary';
-import Header from "../home/Header";
+// Custom components
+import ErrorBoundary from './ErrorBoundary';       // Catches runtime errors in the component tree
+import Header from "../home/Header";               // Header component visible on all pages
+import ScrollToTop from "./ScrollToTop";          // Scrolls to top on route change
+
 import Home from "../home/Home";
 import ProductsHome from "../products/ProductsHome";
 import ProductDetails from "../products/ProductDetails";
@@ -11,55 +15,63 @@ import AboutUs from "../aboutandcontact/AboutUs";
 import BlogHome from "../Blog/BlogHome";
 import ContactHome from "../Contact/ContactHome";
 import ArticleDetails from "../Blog/ArticleDetails";
-import ScrollToTop from "./ScrollToTop";
 import MyCart from "../home/MyCart";
-import CheckoutPage from "../products/CheckoutPage"; // صفحة الدفع الكاملة
+import CheckoutPage from "../products/CheckoutPage";
 import PaymentMethods from "../products/PaymentMethods";
 
 export default function App() {
   return (
     <div className="selection:text-indigo-50 selection:bg-indigo-700">
+
+      {/* ErrorBoundary wraps the whole app to catch runtime errors */}
       <ErrorBoundary>
+
+        {/* Header is always visible */}
         <Header />
 
+        {/* Automatically scroll to top on route change */}
         <ScrollToTop />
 
+        {/* Toast notifications container */}
         <ToastContainer position="top-center" autoClose={1400} />
 
+        {/* Application Routes */}
         <Routes>
+
+          {/* Home page */}
           <Route path="/home" element={<Home />} />
           <Route path="/" element={<Home />} />
 
-          {/* صفحة السلة */}
+          {/* Cart page */}
           <Route path="/cart" element={<MyCart />} />
 
-          {/* صفحة الدفع المنفصلة */}
+          {/* Checkout page */}
           <Route path="/checkout" element={<CheckoutPage />} />
 
-          {/* صفحة تفاصيل المنتج */}
+          {/* Product details page */}
           <Route path="/products/:productId" element={<ProductDetails />} />
 
-          {/* صفحة الفئة الجديدة */}
+          {/* Category pages */}
           <Route path="/category/:categoryName" element={<ProductsHome />} />
 
-          {/* عرض كل المنتجات */}
+          {/* All products page */}
           <Route path="/products" element={<ProductsHome />} />
 
-          {/*About Us */}
+          {/* About Us page */}
           <Route path="/about-us" element={<AboutUs />} />
 
-          {/* مسارات المدونة الجديدة */}
+          {/* Blog pages */}
           <Route path="/blog" element={<BlogHome />} />
-
-          {/* مسار جديد لصفحة فئة المدونة */}
           <Route path="/blog/category/:categoryName" element={<BlogHome />} />
-
           <Route path="/blog/:articleId" element={<ArticleDetails />} />
           <Route path="/articles/:id" element={<ArticleDetails />} />
+
+          {/* Contact page */}
           <Route path="/contact-us" element={<ContactHome />} />
 
-          {/* صفحة طرق الدفع الجديدة */}
+          {/* Payment methods page */}
           <Route path="/payment-methods" element={<PaymentMethods />} />
+
         </Routes>
       </ErrorBoundary>
     </div>

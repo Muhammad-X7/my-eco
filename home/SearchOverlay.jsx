@@ -10,9 +10,10 @@ export default function SearchOverlay({ isOpen, onClose }) {
   const [displayCount, setDisplayCount] = useState(4);
   const navigate = useNavigate();
 
-  // مرجع للعنصر الرئيسي
+  // Reference to the main overlay element
   const overlayRef = useRef(null);
 
+  // Filter products and articles based on search term
   useEffect(() => {
     if (searchTerm.length > 0) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -33,7 +34,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
     }
   }, [searchTerm]);
 
-  // معالجة الضغط على Escape
+  // Handle Escape key to close overlay
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -48,7 +49,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  // معالجة الضغط خارج العنصر
+  // Close overlay if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (overlayRef.current && !overlayRef.current.contains(event.target) && isOpen) {
@@ -67,7 +68,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
     };
   }, [isOpen, onClose]);
 
-  // معالجة زر العودة في المتصفح
+  // Handle browser back button
   useEffect(() => {
     const handlePopState = () => {
       if (isOpen) {
@@ -85,31 +86,32 @@ export default function SearchOverlay({ isOpen, onClose }) {
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) {
-    return null;
-  }
+  if (!isOpen) return null;
 
+  // Close overlay when clicking a link
   const handleLinkClick = () => {
     onClose();
   };
 
+  // Show all results
   const handleShowMore = () => {
     setDisplayCount(filteredResults.length);
   };
 
+  // Navigate to products page
   const handleSearchClick = () => {
     onClose();
     navigate("/products");
   };
 
-  // التعامل مع الضغط على Enter
+  // Handle Enter key to trigger search
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleSearchClick();
     }
   };
 
-  // إغلاق البحث عند الضغط على الخلفية
+  // Close overlay when clicking on the backdrop
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -122,6 +124,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
       onClick={handleBackdropClick}
     >
       <div ref={overlayRef} className="w-full max-w-4xl px-4">
+        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-6 right-6 text-white hover:text-gray-400 text-3xl cursor-pointer focus:outline-none"
@@ -129,6 +132,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
           <img src="/close.png" alt="close-icon" className="w-7 right-5 top-2 hover:rotate-90 transition duration-400 relative" />
         </button>
 
+        {/* Search Input */}
         <div className="relative flex items-center border-b-2 border-purple-600 pb-3">
           <input
             type="text"
@@ -148,6 +152,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
           </button>
         </div>
 
+        {/* Results Section */}
         {searchTerm.length > 0 && (
           <div className="mt-8 bg-[#111518] px-6 pt-8 pb-28 lg:pt-6 lg:pb-6 rounded-lg max-h-80 overflow-y-auto">
             {filteredResults.length > 0 ? (
@@ -169,6 +174,7 @@ export default function SearchOverlay({ isOpen, onClose }) {
               <p className="text-gray-500 text-center">No results found.</p>
             )}
 
+            {/* Show More Button */}
             {filteredResults.length > displayCount && (
               <div className="mt-6 text-center">
                 <button
